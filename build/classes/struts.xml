@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN" "struts-2.1.7.dtd" >
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8"/>
+	<constant name="struts.action.extension" value="php" />
+	
+	
+	<package name="typing" extends="struts-default" >
+		<!-- 定义一个拦截器，用来过滤禁用cookie的用户 -->
+		<!--  <interceptors>  
+	            <interceptor name="abadonCookie"  
+	                class="app.interceptor.CheckCookie">  
+	            </interceptor> 
+	             
+	             
+	            <interceptor-stack name="mydefault">  
+	                <interceptor-ref name="defaultStack" />  
+	                <interceptor-ref name="abadonCookie" />  
+	            </interceptor-stack>  
+	     </interceptors>
+	    -->
+	    <!-- 
+	     <global-results>  
+	             
+	            <result name="cookieAbandon">/WEB-INF/jsp/abandonCookie.html</result>  
+	     </global-results>
+	      -->
+	     
+		
+		
+		<action name="*_ty" class="app.type.action.TypingAction" method="{1}">
+			<exception-mapping exception="java.lang.Exception" result="error"></exception-mapping>
+			<!-- 使用自定义拦截器 -->
+			<!-- <interceptor-ref name="mydefault" /> --> 
+			<result name="error">/WEB-INF/jsp/error.html</result>
+			<result name="index">/WEB-INF/jsp/index.jsp</result>
+			<result name="speedTest">/WEB-INF/jsp/speedTest.jsp</result>
+			<result name="typeresult">/WEB-INF/jsp/personGrade.jsp</result>
+			<result name="reIndex"  type= "redirectAction">index_ty.php</result>
+		</action>
+	</package>
+	<package name="ajax" extends="json-default">
+		<action name="*_aj" class="app.type.ajax.AjaxAction" method="{1}">
+			<result name="login_res" type="json">
+				<param name="includeProperties">msg.*</param>
+			</result>
+			<result name="logout" type="json">
+				<param name="includeProperties">msg.*</param>
+			</result>
+			<result name="noreUser" type="json">
+				<param name="includeProperties">msg.*</param>
+			</result>
+			<result name="error" type="json">
+				<param name="includeProperties">msg.*</param>
+			</result>
+			<result name="allArticle" type="json">
+				<param name="includeProperties">articleJsonArray.*</param>
+			</result>
+			<result name="verifyRes" type="json">
+				<param name="includeProperties">msg.*</param>
+			</result>
+		</action>
+	</package>
+</struts>
